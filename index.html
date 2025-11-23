@@ -3,45 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador MT (Emulación AFD) - INV-[0-9]+</title>
+  <title>Simulador de Máquina de Turing</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header class="app-header">
-    <h1>Simulador de Máquina de Turing (AFD) — INV-[0-9]+</h1>
-    <p>Ingresa una cadena y observa cómo el cabezal avanza y cambia de estado.</p>
+  <header class="encabezado">
+    <h1>Simulador de Máquina de Turing — Regex: INV-[0-9]+</h1>
+    <p>Escribe una cadena y observa cómo se procesa paso a paso.</p>
   </header>
 
-  <main class="app-main">
-    <section class="input-panel">
-      <label for="inputTape"><strong>Entrada:</strong></label>
-      <input id="inputTape" type="text" placeholder="Ej: INV-12345" autocomplete="off"/>
-      <div class="controls">
+  <main class="contenido">
+    <section class="panel-entrada">
+      <label for="inputTape"><strong>Cadena de entrada:</strong></label>
+      <input id="inputTape" type="text" placeholder="Ejemplo: INV-12345" autocomplete="off"/>
+      <div class="botones">
         <button id="btnLoad">Cargar cinta</button>
-        <button id="btnStep">Step</button>
-        <button id="btnRun">Run</button>
+        <button id="btnStep">Paso</button>
+        <button id="btnRun">Ejecutar</button>
         <button id="btnReset">Reiniciar</button>
       </div>
     </section>
 
-    <section class="machine-panel">
-      <div class="tape-container" id="tapeContainer"></div>
-      <div class="head-indicator" id="headIndicator">▼</div>
-      <div class="state-panel">
+    <section class="panel-maquina">
+      <div class="cinta" id="tapeContainer"></div>
+      <div class="cabezal" id="headIndicator">▼</div>
+      <div class="estado">
         <p><strong>Estado actual:</strong> <span id="currentState">q0</span></p>
         <p><strong>Posición del cabezal:</strong> <span id="headPos">0</span></p>
       </div>
     </section>
 
-    <section class="result-panel">
+    <section class="panel-resultado">
       <p><strong>Resultado:</strong> <span id="resultMsg">—</span></p>
-      <p><strong>Log:</strong></p>
+      <p><strong>Registro de pasos:</strong></p>
       <pre id="logArea"></pre>
     </section>
   </main>
 
-  <footer class="app-footer">
-    <small>Proyecto — Gramáticas y Lenguajes Formales</small>
+  <footer class="pie">
+    <small>Proyecto académico — Gramáticas y Lenguajes Formales</small>
   </footer>
 
   <script src="script.js"></script>
