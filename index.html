@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulador MT (Emulación AFD) - INV-[0-9]+</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Simulador de Máquina de Turing (AFD) — INV-[0-9]+</h1>
+    <p>Ingresa una cadena y observa cómo el cabezal avanza y cambia de estado.</p>
+  </header>
+
+  <main class="app-main">
+    <section class="input-panel">
+      <label for="inputTape"><strong>Entrada:</strong></label>
+      <input id="inputTape" type="text" placeholder="Ej: INV-12345" autocomplete="off"/>
+      <div class="controls">
+        <button id="btnLoad">Cargar cinta</button>
+        <button id="btnStep">Step</button>
+        <button id="btnRun">Run</button>
+        <button id="btnReset">Reiniciar</button>
+      </div>
+    </section>
+
+    <section class="machine-panel">
+      <div class="tape-container" id="tapeContainer"></div>
+      <div class="head-indicator" id="headIndicator">▼</div>
+      <div class="state-panel">
+        <p><strong>Estado actual:</strong> <span id="currentState">q0</span></p>
+        <p><strong>Posición del cabezal:</strong> <span id="headPos">0</span></p>
+      </div>
+    </section>
+
+    <section class="result-panel">
+      <p><strong>Resultado:</strong> <span id="resultMsg">—</span></p>
+      <p><strong>Log:</strong></p>
+      <pre id="logArea"></pre>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Proyecto — Gramáticas y Lenguajes Formales</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
