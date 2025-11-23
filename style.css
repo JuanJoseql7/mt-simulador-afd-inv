@@ -121,4 +121,87 @@ html, body {
 .cinta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+  gap: 8px;
+}
+.celda {
+  background: var(--celda);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  height: 40px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-weight: 700; 
+  color: var(--secundario);
+  transition: transform 0.2s ease, background 0.25s ease, outline-color 0.2s ease;
+}
+.celda.activa {
+  background: var(--celda-activa);
+  outline: 2px solid #9bb8ff;
+  transform: scale(1.05);
+}
+
+.cabezal {
+  position: absolute;
+  top: -20px; /* justo encima de la celda */
+  font-size: 20px;
+  color: var(--secundario);
+}
+
+/* Resultado y registro */
+.resultado { margin-top: 12px; }
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--borde);
+  background: var(--chip);
+  color: var(--muted);
+  font-weight: 700;
+}
+.badge.ok { background: #eafaf1; color: var(--ok); border-color: #c6f3d7; }
+.badge.err { background: #fdecea; color: var(--err); border-color: #fac3bd; }
+.badge.warn{ background: #fff4e5; color: var(--warn); border-color: #ffe1b2; }
+
+.panel-reglas .reglas-lista {
+  margin: 8px 0 12px 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+.log-area {
+  background: #fbfdff;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 120px;
+  color: var(--muted);
+  overflow: auto;
+}
+
+/* Footer */
+.pie {
+  padding: 12px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+.pie .tips {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.tip {
+  background: var(--chip);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .encabezado { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cinta { grid-template-columns: repeat(auto-fit, minmax(32px, 1fr)); }
+  .celda { height: 34px; font-size: 0.95rem; }
+}
+
+  grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
 
