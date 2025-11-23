@@ -40,7 +40,7 @@ Cualquier símbolo inesperado → `qE` (trampa).
 - **Motor:** `step()` (paso a paso) y `run()` (automático).
 
 ## URL del simulador (GitHub Pages)
-https://TU_USUARIO.github.io/mt-simulador-afd-inv/
+https://juanjoseql7.github.io/mt-simulador-afd-inv/
 
 ## Casos de prueba
 - Acepta: `INV-0`, `INV-12345`
