@@ -1,99 +1,243 @@
-let cinta = [];
-let cabezal = 0;
-let estado = "q0";
-let detenido = false;
-let aceptado = false;
+let form = document.getElementById("formCinta");            // Formulario para obtener el array
+let cajaCinta = document.getElementById("tapeBox");         // Div que representa la cinta en el index.html
+let proceso = document.getElementById("stateLabel");        // Span donde se adjunta el proceso 
+let resultado = document.getElementById("resultLabel");     // Span donde se adjunta el resultado
 
-const DIGITOS = new Set(["0","1","2","3","4","5","6","7","8","9"]);
-const BLANCO = "_";
-const esDigito = ch => DIGITOS.has(ch);
+let oneStep = document.getElementById("stepBtn");       // Boton para avanazar en la cinta una vez
+let autoStep = document.getElementById("autoBtn");      // Boton para avance automatico de la cinta
+let reset = document.getElementById("resetBtn");        // Boton para reiniciar la cinta
 
-// Tabla de reglas para INV-[0-9]+_
-const reglas = {
-  q0: { "I": { escribir: "I", mover: "R", siguiente: "qI" }, defecto: { error: true } },
-  qI: { "N": { escribir: "N", mover: "R", siguiente: "qIN" }, defecto: { error: true } },
-  qIN:{ "V": { escribir: "V", mover: "R", siguiente: "qINV"}, defecto: { error: true } },
-  qINV:{ "-": { escribir: "-", mover: "R", siguiente: "qINVdash" }, defecto: { error: true } },
+let regex = /^(\d*_[\d_]*)$/;                           // Expresion regex a validar
+let posDecision = null;                                 // Posicion de la casilla que define si se acepta o no la cadena
+let segundos = 1;                                       // Intervalo de segundos para el auto run
 
-  qINVdash: {
-    digito: { escribir: "igual", mover: "R", siguiente: "qNum" },
-    defecto: { error: true }
-  },
+cinta = [];                                                 // Arreglo global que representa la cinta
+let head = 0;                                               // Cabecera de la cinta
+let estado = "q0";                                          // Estado inicial de la MT
+let alfabeto = ["1","2","3","4","5","6","7","8","9","_"];   // Alfabeto de la expresion regular
 
-  qNum: {
-    digito: { escribir: "igual", mover: "R", siguiente: "qNum" },
-    [BLANCO]: { escribir: BLANCO, mover: "R", siguiente: "qAccept" },
-    defecto: { error: true }
-  },
-
-  qAccept: {}, qReject: {}
+const transiciones = {                                      // Tabla de transiciones con todas sus reglas
+    "q0"        : {},
+    "q1"        : {},
+    "q2"        : {},
+    "q3"        : {},
+    "q4"        : {},
+    "q5"        : {},
+    "q6"        : {},
+    "qaccept"   : {},
+    "qreject"   : {},
 };
 
-function funcionTransicion(est, simb) {
-  const tabla = reglas[est];
-  if (!tabla) return { escribir: simb, mover: "R", siguiente: "qReject" };
-  if (esDigito(simb) && tabla["digito"]) {
-    const r = tabla["digito"];
-    return { escribir: simb, mover: r.mover, siguiente: r.siguiente };
-  }
-  if (Object.prototype.hasOwnProperty.call(tabla, simb)) {
-    const r = tabla[simb];
-    const escribir = r.escribir === "igual" ? simb : r.escribir;
-    return { escribir, mover: r.mover, siguiente: r.siguiente };
-  }
-  return { escribir: simb, mover: "R", siguiente: "qReject" };
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q0"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q1"};
+    else
+        transiciones["q0"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q1"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q2"};
+    else
+        transiciones["q1"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q2"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q3"};
+    else
+        transiciones["q2"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q3"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q4"};
+    else
+        transiciones["q3"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q4"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q5"};
+    else
+        transiciones["q4"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qaccept"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q5"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "q6"};
+    else
+        transiciones["q5"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+});
+
+alfabeto.forEach(simbolo => {
+    if (simbolo != "_") 
+        transiciones["q6"][simbolo] = {escribir : simbolo, mover : "R", sigEstado : "qreject"};
+    else
+        transiciones["q6"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qaccept"};
+});
+
+alfabeto.forEach(simbolo => {
+    transiciones["qreject"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qreject"};
+    transiciones["qaccept"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qaccept"};
+});
+
+function trazaProceso(regla, estadoActual, simbolo){
+    if (regla != null) {
+        let estadoAnterior = estadoActual;
+        let leido = simbolo;
+        let escribe = regla.escribir;
+        let direccion = ""; 
+        let nuevoEstadoActual = regla.sigEstado;
+
+        switch (regla.mover) {
+            case "R": direccion = "Derecha";
+                break; 
+            case "S": direccion = "Estatico";
+                break;
+            case "L": direccion = "Izquierda";
+                break;
+        }
+
+        proceso.innerHTML = "";
+        proceso.innerHTML = `
+            <div class="log-item">Estado anterior: <strong>${estadoAnterior}</strong></div>
+            <div class="log-item">Leyó: <strong>${leido}</strong></div>
+            <div class="log-item">Escribió: <strong>${escribe}</strong></div>
+            <div class="log-item">Movimiento: <strong>${direccion}</strong></div>
+            <div class="log-item">Estado actual: <strong>${nuevoEstadoActual}</strong></div>
+
+        `;
+    } else {
+        proceso.innerHTML = `
+            <span class="log-item">Estado actual: <strong>${estadoActual}</strong></span>
+        `;
+    }
+    
 }
 
-function paso() {
-  if (detenido) return;
-  if (estado === "qAccept" || estado === "qReject") {
-    detenido = true;
-    aceptado = (estado === "qAccept");
-    document.getElementById("resultLabel").textContent = aceptado ? "Cadena aceptada" : "Cadena rechazada";
-    return;
-  }
-  const simboloActual = cinta[cabezal] ?? BLANCO;
-  const res = funcionTransicion(estado, simboloActual);
-  if (cinta[cabezal] !== undefined) cinta[cabezal] = res.escribir;
-  if (res.mover === "R") cabezal++;
-  estado = res.siguiente;
-  document.getElementById("stateLabel").textContent = estado;
-  dibujarCinta();
+function mostrarResultado() {
+if (estado === "qaccept")
+    resultado.innerHTML = `<span class="text-success"><strong>Cadena válida.</strong></span>`;
+else if (estado === "qreject")
+    resultado.innerHTML = `<span class="text-danger"><strong>Cadena no válida.</strong></span>`;
 }
 
-function dibujarCinta() {
-  const box = document.getElementById("tapeBox");
-  box.innerHTML = "";
-  cinta.forEach((s, i) => {
-    const span = document.createElement("span");
-    span.className = "tape-symbol" + (i === cabezal ? " pointer" : "");
-    span.textContent = s;
-    box.appendChild(span);
-  });
+function renderCinta() { 
+    cajaCinta.innerHTML = "";
+
+    cinta.forEach((simbolo, index) => {
+        // Crear una celda
+        const celda = document.createElement("div");
+        celda.textContent = simbolo;
+        celda.classList.add(
+            "border", "p-2", "text-center"
+        );
+        celda.style.width = "40px";
+
+        // Validar si es la cabecera de la cinta
+        if (index === head) {
+            celda.style.background = "#cce5ff";    
+            celda.style.border = "2px solid #007bff";
+            celda.style.fontWeight = "bold";
+        }
+
+        // Posicion de decision si es cadena valida o no
+        if(index == posDecision){
+            if(estado == "qaccept")
+                celda.style.background = "#7bfc76ff";
+            else
+                celda.style.background = "#f58888ff";
+        }
+
+        cajaCinta.appendChild(celda);
+    });
 }
 
-function cargarCinta() {
-  const texto = (document.getElementById("inputTape").value || "").trim();
-  if (!texto.endsWith("_")) {
-    document.getElementById("resultLabel").textContent = "La cadena debe terminar en _";
-    return;
-  }
-  cinta = [...texto];
-  cabezal = 0;
-  estado = "q0";
-  detenido = false;
-  aceptado = false;
-  document.getElementById("resultLabel").textContent = "—";
-  document.getElementById("stateLabel").textContent = estado;
-  dibujarCinta();
+function step(){
+
+    if (estado === "qaccept" || estado === "qreject") {
+        renderCinta();
+        mostrarResultado();
+        return;
+    }
+
+    let simboloActual = cinta[head];
+    let regla = transiciones[estado][simboloActual];
+
+    trazaProceso(regla, estado, simboloActual);
+
+    if (!regla) {
+        estado = "qreject"
+        return;
+    }
+
+    if ((regla.sigEstado == "qaccept") ||(regla.sigEstado == "qreject"))
+        posDecision = head;
+
+    // Escribir en cinta
+    cinta[head] = regla.escribir;
+
+    // Mover cinta
+    if (regla.mover == "R")
+        head++;
+
+    // Nuevo estado
+    estado = regla.sigEstado;
+
+    renderCinta();
 }
 
-document.getElementById("loadBtn").addEventListener("click", cargarCinta);
-document.getElementById("stepBtn").addEventListener("click", paso);
-document.getElementById("autoBtn").addEventListener("click", () => { while(!detenido) paso(); });
-document.getElementById("resetBtn").addEventListener("click", () => { cinta=["_"]; cabezal=0; estado="q0"; detenido=false; aceptado=false; dibujarCinta(); });
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-dibujarCinta();
+async function autoRun() {
+    while (estado !== "qaccept" && estado !== "qreject") {
+        await delay(segundos*1000);
+        step();
+    }
+}
 
+form.addEventListener("submit", (e) =>{
 
+    e.preventDefault();
+    const inputCinta = document.getElementById("inputTape");
+    const valor = inputCinta.value.trim();
+
+    if(regex.test(valor)){
+        head = 0;
+        estado = "q0";
+        posDecision = null;
+        cinta = valor.split("");
+        proceso.innerHTML = "";
+        resultado.innerHTML = "";
+        renderCinta();
+        trazaProceso(null, estado, "");
+    }else {
+        cinta = [];
+        cajaCinta.innerHTML = "<span class=text-muted>Cadena no válida</span>";
+    }
+})
+
+oneStep.addEventListener("click", ()=>{
+    let tamano = cinta.length;
+    if ((tamano > 0) && (head < tamano)) {
+        step();    
+    }
+})
+
+reset.addEventListener("click", ()=>{
+    head = 0;
+    estado = "q0";
+    posDecision = null;
+    proceso.innerHTML = "";
+    resultado.innerHTML = "";
+    renderCinta();
+    trazaProceso(null, estado, "");
+})
+
+autoStep.addEventListener("click", ()=>{
+    autoRun();
+})
 
