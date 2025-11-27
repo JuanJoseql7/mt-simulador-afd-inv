@@ -1,7 +1,7 @@
 body {
-  background-color: #f4f6f9;
+  background-color: #121212;
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #212529;
+  color: #e0e0e0;
 }
 
 h1 {
@@ -17,27 +17,28 @@ h1 {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  border: 1px solid #dee2e6;
+  border: 1px solid #1f1f1f;
   padding: 12px;
   min-height: 60px;
-  background-color: #fafafa;
+  background-color: #000;
   border-radius: 6px;
 }
 
 .tape-cell {
-  border: 1px solid #adb5bd;
+  border: 1px solid #00e676;
   padding: 8px 12px;
   font-weight: 500;
-  background-color: #e9ecef;
+  background-color: #212121;
+  color: #ffffff;
   min-width: 35px;
   text-align: center;
   border-radius: 4px;
 }
 
 .tape-cell.active {
-  background-color: #0d6efd;
+  background-color: #2979ff;
   color: #fff;
-  border-color: #0a58ca;
+  border-color: #00b0ff;
 }
 
 .log-box {
@@ -48,10 +49,6 @@ h1 {
 .log-item {
   margin-bottom: 6px;
   padding: 4px;
-  border-left: 3px solid #0d6efd;
-  background-color: #f8f9fa;
-}
-
-.control-panel {
-  background-color: #fdfdfd;
+  border-left: 3px solid #2979ff;
+  background-color: #1c1c1c;
 }
