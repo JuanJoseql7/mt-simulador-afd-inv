@@ -1,46 +1,61 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css">
-  <title>Simulador MT - Código Inventario</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css">
+
+    <title>Proyecto Gramaticas</title>
 </head>
 <body>
-  <div class="container py-5">
-    <h1 class="text-center mb-4">Simulador de MT para Código de Inventario</h1>
-    <div class="card shadow p-4">
-      <div class="row mb-4">
-        <div class="col">
-          <label class="form-label">Cinta inicial (ej: INV-123_):</label>
-          <input id="inputTape" type="text" class="form-control" placeholder="Ej: INV-123_">
+    <div class="container py-5">
+
+        <h1 class="text-center mb-4">Simulador de MT para un PIN de 4 o 6 digitos</h1>
+        
+        <div class="card shadow p-4">
+            <form action="script.js" id="formCinta">
+                <div class="row mb-4">
+                    <div class="col">
+                        <label class="form-label">Cinta inicial (debe contener como minimo un "_") :</label>
+                        <input id="inputTape" type="text" class="form-control" placeholder="Ej: 2468_">
+                    </div>
+                    <div class="col-auto d-flex align-items-end">
+                        <button type="submit" id="loadBtn" class="btn btn-primary">Cargar cinta</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Zona donde se muestra la cinta -->
+            <h5>Cinta:</h5>
+            <div id="tapeBox" class="tape-box mb-4">
+                <span class="text-muted">Cinta vacía</span>
+            </div>
+
+            <!-- Botones de control -->
+            <div class="d-flex gap-2 mb-4">
+                <button id="stepBtn" class="btn btn-warning">Avanzar paso</button>
+                <button id="autoBtn" class="btn btn-success">Ejecutar todo</button>
+                <button id="resetBtn" class="btn btn-secondary">Reiniciar</button>
+            </div>
+
+            <!-- Estado actual -->
+            <div class="alert alert-info">
+                <strong>Procedimiento:</strong>
+                <span id="stateLabel"></span>
+            </div>
+
+            <!-- Resultado final -->
+            <div class="alert alert-secondary">
+                <strong>Resultado:</strong>
+                <span id="resultLabel">—</span>
+            </div>
+
         </div>
-        <div class="col-auto d-flex align-items-end">
-          <!-- Botón corregido: type="button" -->
-          <button type="button" id="loadBtn" class="btn btn-outline-primary">Cargar cinta</button>
-        </div>
-      </div>
-
-      <h5>Cinta:</h5>
-      <div id="tapeBox" class="tape-box mb-4"><span class="text-muted">Cinta vacía</span></div>
-
-      <div class="d-flex gap-2 mb-4">
-        <button id="stepBtn" class="btn btn-outline-warning">Paso</button>
-        <button id="autoBtn" class="btn btn-outline-success">Ejecutar todo</button>
-        <button id="resetBtn" class="btn btn-outline-secondary">Reiniciar</button>
-      </div>
-
-      <div class="alert alert-info">
-        <strong>Estado actual:</strong> <span id="stateLabel"></span>
-      </div>
-
-      <div class="alert alert-secondary">
-        <strong>Resultado:</strong> <span id="resultLabel">—</span>
-      </div>
     </div>
-  </div>
-  <script src="script.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
