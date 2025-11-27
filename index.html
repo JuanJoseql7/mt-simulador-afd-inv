@@ -11,17 +11,16 @@
   <div class="container py-5">
     <h1 class="text-center mb-4">Simulador de MT para Código de Inventario</h1>
     <div class="card shadow p-4">
-      <form id="formCinta">
-        <div class="row mb-4">
-          <div class="col">
-            <label class="form-label">Cinta inicial (ej: INV-123_):</label>
-            <input id="inputTape" type="text" class="form-control" placeholder="Ej: INV-123_">
-          </div>
-          <div class="col-auto d-flex align-items-end">
-            <button type="submit" id="loadBtn" class="btn btn-outline-primary">Cargar cinta</button>
-          </div>
+      <div class="row mb-4">
+        <div class="col">
+          <label class="form-label">Cinta inicial (ej: INV-123_):</label>
+          <input id="inputTape" type="text" class="form-control" placeholder="Ej: INV-123_">
         </div>
-      </form>
+        <div class="col-auto d-flex align-items-end">
+          <!-- Botón corregido: type="button" -->
+          <button type="button" id="loadBtn" class="btn btn-outline-primary">Cargar cinta</button>
+        </div>
+      </div>
 
       <h5>Cinta:</h5>
       <div id="tapeBox" class="tape-box mb-4"><span class="text-muted">Cinta vacía</span></div>
