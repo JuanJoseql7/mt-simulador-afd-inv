@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador MT - Inventario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css">
-
-    <title>Proyecto Gramaticas</title>
 </head>
 <body>
     <div class="container py-5">
-
-        <h1 class="text-center mb-4">Simulador de MT para un PIN de 4 o 6 digitos</h1>
+        <h1 class="text-center mb-4">Simulador de MT para Código de Inventario</h1>
         
         <div class="card shadow p-4">
-            <form action="script.js" id="formCinta">
+            <form id="formCinta">
                 <div class="row mb-4">
                     <div class="col">
-                        <label class="form-label">Cinta inicial (debe contener como minimo un "_") :</label>
-                        <input id="inputTape" type="text" class="form-control" placeholder="Ej: 2468_">
+                        <label class="form-label">Cinta inicial (ej: INV-123):</label>
+                        <input id="inputTape" type="text" class="form-control" 
+                               placeholder="Ej: INV-456" 
+                               pattern="^INV-\\d+$" 
+                               required>
+                        <div class="form-text">Debe comenzar con "INV-" seguido de dígitos.</div>
                     </div>
                     <div class="col-auto d-flex align-items-end">
                         <button type="submit" id="loadBtn" class="btn btn-primary">Cargar cinta</button>
@@ -42,7 +44,7 @@
             <!-- Estado actual -->
             <div class="alert alert-info">
                 <strong>Procedimiento:</strong>
-                <span id="stateLabel"></span>
+                <span id="stateLabel">—</span>
             </div>
 
             <!-- Resultado final -->
@@ -50,7 +52,6 @@
                 <strong>Resultado:</strong>
                 <span id="resultLabel">—</span>
             </div>
-
         </div>
     </div>
 
