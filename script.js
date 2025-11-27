@@ -78,15 +78,19 @@ function dibujarCinta() {
 }
 
 // Cargar cinta
-function cargarCinta(e) {
-  e.preventDefault();
+function cargarCinta() {
   const texto = (document.getElementById("inputTape").value || "").trim();
+  if (!texto.endsWith("_")) {
+    document.getElementById("resultLabel").textContent = "La cadena debe terminar en _";
+    return;
+  }
   cinta = [...texto];
   cabezal = 0;
   estado = "q0";
   detenido = false;
   aceptado = false;
   document.getElementById("resultLabel").textContent = "—";
+  document.getElementById("stateLabel").textContent = estado;
   dibujarCinta();
 }
 
