@@ -9,24 +9,24 @@
 </head>
 <body>
   <div class="container py-5">
-    <h1 class="text-center mb-4">Simulador de MT para Código de Inventario</h1>
-    <div class="card shadow p-4">
+    <h1 class="text-center mb-4 text-primary">Simulador de MT para Código de Inventario</h1>
+    <div class="card shadow-lg border-0 p-4 bg-light">
       <form id="formCinta">
         <div class="row mb-4">
           <div class="col">
-            <label class="form-label">Cinta inicial (ej: INV-123):</label>
-            <input id="inputTape" type="text" class="form-control"
+            <label class="form-label fw-bold text-success">Cinta inicial (ej: INV-123):</label>
+            <input id="inputTape" type="text" class="form-control border-info"
                    placeholder="Ej: INV-456"
                    required>
-            <div class="form-text">Debe comenzar con "INV-" seguido de uno o más dígitos.</div>
+            <div class="form-text text-muted">Debe comenzar con "INV-" seguido de uno o más dígitos.</div>
           </div>
           <div class="col-auto d-flex align-items-end">
-            <button type="submit" id="loadBtn" class="btn btn-primary">Cargar cinta</button>
+            <button type="submit" id="loadBtn" class="btn btn-info text-white">Cargar cinta</button>
           </div>
         </div>
       </form>
 
-      <h5>Cinta:</h5>
+      <h5 class="text-secondary">Cinta:</h5>
       <div id="tapeBox" class="tape-box mb-4">
         <span class="text-muted">Cinta vacía</span>
       </div>
@@ -34,10 +34,10 @@
       <div class="d-flex gap-2 mb-4">
         <button id="stepBtn" class="btn btn-warning">Avanzar paso</button>
         <button id="autoBtn" class="btn btn-success">Ejecutar todo</button>
-        <button id="resetBtn" class="btn btn-secondary">Reiniciar</button>
+        <button id="resetBtn" class="btn btn-danger">Reiniciar</button>
       </div>
 
-      <div class="alert alert-info">
+      <div class="alert alert-primary">
         <strong>Procedimiento:</strong>
         <div id="stateLabel" class="log-box">—</div>
       </div>
