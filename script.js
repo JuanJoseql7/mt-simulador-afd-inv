@@ -15,13 +15,11 @@ const reglas = {
   qIN:{ "V": { escribir: "V", mover: "R", siguiente: "qINV"}, defecto: { error: true } },
   qINV:{ "-": { escribir: "-", mover: "R", siguiente: "qINVdash" }, defecto: { error: true } },
 
-  // Después del guion, deben venir dígitos
   qINVdash: {
     digito: { escribir: "igual", mover: "R", siguiente: "qNum" },
     defecto: { error: true }
   },
 
-  // Estado que consume dígitos
   qNum: {
     digito: { escribir: "igual", mover: "R", siguiente: "qNum" },
     [BLANCO]: { escribir: BLANCO, mover: "R", siguiente: "qAccept" },
@@ -31,7 +29,6 @@ const reglas = {
   qAccept: {}, qReject: {}
 };
 
-// Función de transición
 function funcionTransicion(est, simb) {
   const tabla = reglas[est];
   if (!tabla) return { escribir: simb, mover: "R", siguiente: "qReject" };
@@ -47,7 +44,6 @@ function funcionTransicion(est, simb) {
   return { escribir: simb, mover: "R", siguiente: "qReject" };
 }
 
-// Paso
 function paso() {
   if (detenido) return;
   if (estado === "qAccept" || estado === "qReject") {
@@ -65,7 +61,6 @@ function paso() {
   dibujarCinta();
 }
 
-// Dibujar cinta
 function dibujarCinta() {
   const box = document.getElementById("tapeBox");
   box.innerHTML = "";
@@ -77,7 +72,6 @@ function dibujarCinta() {
   });
 }
 
-// Cargar cinta
 function cargarCinta() {
   const texto = (document.getElementById("inputTape").value || "").trim();
   if (!texto.endsWith("_")) {
@@ -94,13 +88,12 @@ function cargarCinta() {
   dibujarCinta();
 }
 
-// Eventos
 document.getElementById("loadBtn").addEventListener("click", cargarCinta);
 document.getElementById("stepBtn").addEventListener("click", paso);
 document.getElementById("autoBtn").addEventListener("click", () => { while(!detenido) paso(); });
 document.getElementById("resetBtn").addEventListener("click", () => { cinta=["_"]; cabezal=0; estado="q0"; detenido=false; aceptado=false; dibujarCinta(); });
 
-// Inicio
 dibujarCinta();
+
 
 
