@@ -138,3 +138,4 @@ function reject(reason) {
   historyLog.innerHTML += `<div class='log-item'><strong>Error:</strong> ${reason} → No cumple la gramática INV-[0-9]+</div>`;
   resultLabel.textContent = "Código inválido ❌";
 }
+
