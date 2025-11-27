@@ -139,3 +139,4 @@ function reject(reason) {
     resultLabel.textContent = "Código inválido ❌";
 }
 
+
