@@ -40,11 +40,12 @@ function step() {
   if (tape.length === 0) return;
 
   const symbol = tape[head];
+  let estadoAnterior = currentState;
 
   switch (currentState) {
     case "q0":
       if (symbol === "I") {
-        stateLabel.textContent = "Leyendo 'I' → mover derecha";
+        logProceso(estadoAnterior, symbol, "I", "Derecha", "q1");
         head++;
         currentState = "q1";
       } else {
@@ -54,7 +55,7 @@ function step() {
 
     case "q1":
       if (symbol === "N") {
-        stateLabel.textContent = "Leyendo 'N' → mover derecha";
+        logProceso(estadoAnterior, symbol, "N", "Derecha", "q2");
         head++;
         currentState = "q2";
       } else {
@@ -64,7 +65,7 @@ function step() {
 
     case "q2":
       if (symbol === "V") {
-        stateLabel.textContent = "Leyendo 'V' → mover derecha";
+        logProceso(estadoAnterior, symbol, "V", "Derecha", "q3");
         head++;
         currentState = "q3";
       } else {
@@ -74,7 +75,7 @@ function step() {
 
     case "q3":
       if (symbol === "-") {
-        stateLabel.textContent = "Leyendo '-' → mover derecha";
+        logProceso(estadoAnterior, symbol, "-", "Derecha", "qDigits");
         head++;
         currentState = "qDigits";
       } else {
@@ -84,7 +85,7 @@ function step() {
 
     case "qDigits":
       if (/[0-9]/.test(symbol)) {
-        stateLabel.textContent = `Leyendo dígito '${symbol}' → mover derecha`;
+        logProceso(estadoAnterior, symbol, symbol, "Derecha", "qDigits");
         head++;
         if (head >= tape.length) {
           accept();
@@ -93,14 +94,19 @@ function step() {
         reject("Esperaba dígito");
       }
       break;
-
-    case "qAccept":
-    case "qReject":
-      stateLabel.textContent = "Proceso terminado";
-      break;
   }
 
   renderTape();
+}
+
+function logProceso(estadoAnterior, leido, escribe, movimiento, nuevoEstado) {
+  stateLabel.innerHTML = `
+    <div class="log-item">Estado anterior: <strong>${estadoAnterior}</strong></div>
+    <div class="log-item">Leyó: <strong>${leido}</strong></div>
+    <div class="log-item">Escribió: <strong>${escribe}</strong></div>
+    <div class="log-item">Movimiento: <strong>${movimiento}</strong></div>
+    <div class="log-item">Estado actual: <strong>${nuevoEstado}</strong></div>
+  `;
 }
 
 document.getElementById("autoBtn").addEventListener("click", function () {
@@ -120,13 +126,12 @@ document.getElementById("resetBtn").addEventListener("click", function () {
 
 function accept() {
   currentState = "qAccept";
-  stateLabel.textContent = "Cadena aceptada";
+  stateLabel.innerHTML = "<div class='log-item'><strong>Cadena aceptada</strong></div>";
   resultLabel.textContent = "Código válido ✅";
 }
 
 function reject(reason) {
   currentState = "qReject";
-  stateLabel.textContent = `Error: ${reason}`;
+  stateLabel.innerHTML = `<div class='log-item'><strong>Error:</strong> ${reason}</div>`;
   resultLabel.textContent = "Código inválido ❌";
 }
-
