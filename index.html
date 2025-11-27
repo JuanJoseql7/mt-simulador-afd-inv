@@ -1,89 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador de Máquina de Turing — INV-[0-9]+</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Simulador MT - Código Inventario</title>
 </head>
 <body>
-  <header class="encabezado">
-    <div class="brand">
-      <div class="logo">MT</div>
-      <div class="titles">
-        <h1>Simulador de Máquina de Turing</h1>
-        <p>Emulación de AFD para Regex: <strong>INV-[0-9]+</strong></p>
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Simulador de MT para Código de Inventario</h1>
+    <div class="card shadow p-4">
+      <form id="formCinta">
+        <div class="row mb-4">
+          <div class="col">
+            <label class="form-label">Cinta inicial (ej: INV-123_):</label>
+            <input id="inputTape" type="text" class="form-control" placeholder="Ej: INV-123_">
+          </div>
+          <div class="col-auto d-flex align-items-end">
+            <button type="submit" id="loadBtn" class="btn btn-outline-primary">Cargar cinta</button>
+          </div>
+        </div>
+      </form>
+
+      <h5>Cinta:</h5>
+      <div id="tapeBox" class="tape-box mb-4"><span class="text-muted">Cinta vacía</span></div>
+
+      <div class="d-flex gap-2 mb-4">
+        <button id="stepBtn" class="btn btn-outline-warning">Paso</button>
+        <button id="autoBtn" class="btn btn-outline-success">Ejecutar todo</button>
+        <button id="resetBtn" class="btn btn-outline-secondary">Reiniciar</button>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Estado actual:</strong> <span id="stateLabel"></span>
+      </div>
+
+      <div class="alert alert-secondary">
+        <strong>Resultado:</strong> <span id="resultLabel">—</span>
       </div>
     </div>
-    <nav class="toolbar">
-      <button id="btnReset" class="btn secondary">Reiniciar</button>
-      <button id="btnRun" class="btn">Ejecutar</button>
-      <button id="btnStep" class="btn">Paso</button>
-    </nav>
-  </header>
-
-  <main class="contenedor">
-    <section class="panel panel-entrada">
-      <h2>Entrada y control</h2>
-      <label for="inputTape"><strong>Cadena de entrada:</strong></label>
-      <div class="entrada-row">
-        <input id="inputTape" type="text" placeholder="Ejemplo: INV-12345" autocomplete="off"/>
-        <button id="btnLoad" class="btn primary">Cargar cinta</button>
-      </div>
-      <p class="ayuda">
-        Acepta códigos con prefijo INV- seguidos de uno o más dígitos. Ejemplos: <code>INV-0</code>, <code>INV-12345</code>.
-      </p>
-    </section>
-
-    <section class="panel panel-maquina">
-      <h2>Visualización de la máquina</h2>
-      <div class="estado-line">
-        <div><strong>Estado actual:</strong> <span id="currentState" class="chip">q0</span></div>
-        <div><strong>Posición del cabezal:</strong> <span id="headPos" class="chip">0</span></div>
-      </div>
-
-      <div class="cinta-wrap">
-        <div class="cabezal" id="headIndicator">▼</div>
-        <div class="cinta" id="tapeContainer"></div>
-      </div>
-
-      <div class="resultado">
-        <span id="resultMsg" class="badge">—</span>
-      </div>
-    </section>
-
-    <section class="panel panel-reglas">
-      <h2>Reglas y registro</h2>
-      <div class="reglas">
-        <details>
-          <summary>Tabla de transición (resumen)</summary>
-          <ul class="reglas-lista">
-            <li><strong>(q0, I)</strong> → (qI, R)</li>
-            <li><strong>(qI, N)</strong> → (qIN, R)</li>
-            <li><strong>(qIN, V)</strong> → (qINV, R)</li>
-            <li><strong>(qINV, -)</strong> → (qINVdash, R)</li>
-            <li><strong>(qINVdash, dígito)</strong> → (qA, R)</li>
-            <li><strong>(qINVdash, _)</strong> → (qReject, R)</li>
-            <li><strong>(qA, dígito)</strong> → (qA, R)</li>
-            <li><strong>(qA, _)</strong> → (qAccept, R)</li>
-          </ul>
-        </details>
-      </div>
-      <div class="log">
-        <label><strong>Registro de pasos:</strong></label>
-        <pre id="logArea" class="log-area"></pre>
-      </div>
-    </section>
-  </main>
-
-  <footer class="pie">
-    <div class="tips">
-      <span class="tip">Consejo: usa “Paso” con cadenas cortas para mostrar la ejecución en la sustentación.</span>
-      <span class="tip">Casos: acepta <code>INV-12</code>, rechaza <code>INV-</code>, rechaza <code>INV-A1</code>.</span>
-    </div>
-    <small>Proyecto académico — Gramáticas y Lenguajes Formales</small>
-  </footer>
-
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
+
