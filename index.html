@@ -16,11 +16,12 @@
                 <div class="row mb-4">
                     <div class="col">
                         <label class="form-label">Cinta inicial (ej: INV-123):</label>
+                        <!-- pattern corregido -->
                         <input id="inputTape" type="text" class="form-control" 
                                placeholder="Ej: INV-456" 
-                               pattern="^INV-\\d+$" 
+                               pattern="INV-\d+" 
                                required>
-                        <div class="form-text">Debe comenzar con "INV-" seguido de dígitos.</div>
+                        <div class="form-text">Debe comenzar con "INV-" seguido de uno o más dígitos.</div>
                     </div>
                     <div class="col-auto d-flex align-items-end">
                         <button type="submit" id="loadBtn" class="btn btn-primary">Cargar cinta</button>
