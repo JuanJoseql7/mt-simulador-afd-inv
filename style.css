@@ -1,28 +1,29 @@
 body {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .tape-box {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    border: 2px dashed #6c757d;
-    padding: 10px;
-    min-height: 50px;
-    background-color: #fff;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border: 2px dashed #6c757d;
+  padding: 10px;
+  min-height: 50px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 
 .tape-cell {
-    border: 1px solid #000;
-    padding: 8px 12px;
-    font-weight: bold;
-    background-color: #e9ecef;
-    min-width: 30px;
-    text-align: center;
+  border: 1px solid #000;
+  padding: 8px 12px;
+  font-weight: bold;
+  background-color: #e9ecef;
+  min-width: 30px;
+  text-align: center;
+  border-radius: 6px;
 }
 
 .tape-cell.active {
-    background-color: #ffc107;
-    border-color: #ff9800;
+  background-color: #ffc107;
+  border-color: #ff9800;
 }
-
