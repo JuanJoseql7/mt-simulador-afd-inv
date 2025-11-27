@@ -1,47 +1,48 @@
 body {
-  background-color: #0b0c10; /* gris muy oscuro */
+  background-color: #f5f5f5; /* fondo claro */
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #f1f1f1; /* texto claro */
+  color: #212121; /* texto oscuro */
 }
 
 h1 {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #66fcf1; /* azul turquesa brillante */
+  color: #1565c0; /* azul fuerte */
 }
 
 .card {
   border-radius: 8px;
-  background-color: #1f2833; /* gris oscuro con contraste */
-  color: #f1f1f1;
+  background-color: #ffffff; /* blanco puro */
+  color: #212121;
+  border: 1px solid #e0e0e0;
 }
 
 .tape-box {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  border: 2px solid #45a29e; /* verde azulado */
+  border: 2px solid #1565c0; /* azul fuerte */
   padding: 12px;
   min-height: 60px;
-  background-color: #c5c6c7; /* gris claro para contraste */
+  background-color: #fafafa; /* gris muy claro */
   border-radius: 6px;
 }
 
 .tape-cell {
-  border: 2px solid #1f2833;
+  border: 2px solid #9e9e9e;
   padding: 8px 12px;
   font-weight: 600;
-  background-color: #ffffff; /* blanco para máximo contraste */
-  color: #0b0c10; /* texto oscuro */
+  background-color: #ffffff; /* blanco */
+  color: #212121; /* texto oscuro */
   min-width: 35px;
   text-align: center;
   border-radius: 4px;
 }
 
 .tape-cell.active {
-  background-color: #66fcf1; /* turquesa brillante */
-  color: #0b0c10; /* texto oscuro */
-  border-color: #45a29e;
+  background-color: #43a047; /* verde fuerte */
+  color: #ffffff; /* texto blanco */
+  border-color: #2e7d32;
 }
 
 .log-box {
@@ -49,8 +50,8 @@ h1 {
   margin-top: 8px;
   max-height: 200px;
   overflow-y: auto;
-  background-color: #c5c6c7; /* fondo claro */
-  color: #0b0c10; /* texto oscuro */
+  background-color: #eeeeee; /* gris claro */
+  color: #212121; /* texto oscuro */
   padding: 8px;
   border-radius: 4px;
 }
@@ -58,11 +59,12 @@ h1 {
 .log-item {
   margin-bottom: 6px;
   padding: 6px;
-  border-left: 4px solid #66fcf1; /* acento brillante */
-  background-color: #ffffff; /* fondo blanco */
-  color: #0b0c10; /* texto oscuro */
+  border-left: 4px solid #1565c0; /* azul fuerte */
+  background-color: #ffffff; /* blanco */
+  color: #212121; /* texto oscuro */
   border-radius: 3px;
 }
+
 
 
 
