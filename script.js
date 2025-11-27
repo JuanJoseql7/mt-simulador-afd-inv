@@ -1,9 +1,10 @@
 let tape = [];
 let head = 0;
 let currentState = "q0";
+let stepCount = 0;
 
 const tapeBox = document.getElementById("tapeBox");
-const stateLabel = document.getElementById("stateLabel");
+const historyLog = document.getElementById("historyLog");
 const resultLabel = document.getElementById("resultLabel");
 
 document.getElementById("formCinta").addEventListener("submit", function (e) {
@@ -19,9 +20,10 @@ document.getElementById("formCinta").addEventListener("submit", function (e) {
   tape = input.split("");
   head = 0;
   currentState = "q0";
+  stepCount = 0;
   resultLabel.textContent = "—";
+  historyLog.innerHTML = "<div class='log-item'>Cinta cargada, estado inicial q0</div>";
   renderTape();
-  stateLabel.textContent = "Cinta cargada, estado inicial q0";
 });
 
 function renderTape() {
@@ -100,14 +102,13 @@ function step() {
 }
 
 function logProceso(estadoAnterior, leido, accion, movimiento, nuevoEstado, explicacion) {
-  stateLabel.innerHTML = `
-    <div class="log-item">Estado anterior: <strong>${estadoAnterior}</strong></div>
-    <div class="log-item">Símbolo leído: <strong>${leido}</strong></div>
-    <div class="log-item">Acción: <strong>${accion}</strong></div>
-    <div class="log-item">Movimiento del cabezal: <strong>${movimiento}</strong></div>
-    <div class="log-item">Nuevo estado: <strong>${nuevoEstado}</strong></div>
-    <div class="log-item text-muted">Explicación: ${explicacion}</div>
-  `;
+  stepCount++;
+  const logEntry = `
+    <div class="log-item">
+      [Paso ${stepCount}] Estado ${estadoAnterior} → ${nuevoEstado}, leyó '${leido}', acción: ${accion}, movimiento: ${movimiento}.
+      <em>${explicacion}</em>
+    </div>`;
+  historyLog.innerHTML += logEntry;
 }
 
 document.getElementById("autoBtn").addEventListener("click", function () {
@@ -120,20 +121,20 @@ document.getElementById("resetBtn").addEventListener("click", function () {
   tape = [];
   head = 0;
   currentState = "q0";
+  stepCount = 0;
   tapeBox.innerHTML = "<span class='text-muted'>Cinta vacía</span>";
-  stateLabel.textContent = "—";
+  historyLog.innerHTML = "—";
   resultLabel.textContent = "—";
 });
 
 function accept() {
   currentState = "qAccept";
-  stateLabel.innerHTML = "<div class='log-item'><strong>Cadena aceptada</strong> → El código cumple la gramática INV-[0-9]+</div>";
+  historyLog.innerHTML += "<div class='log-item'><strong>Cadena aceptada</strong> → El código cumple la gramática INV-[0-9]+</div>";
   resultLabel.textContent = "Código válido ✅";
 }
 
 function reject(reason) {
   currentState = "qReject";
-  stateLabel.innerHTML = `<div class='log-item'><strong>Error:</strong> ${reason} → No cumple la gramática INV-[0-9]+</div>`;
+  historyLog.innerHTML += `<div class='log-item'><strong>Error:</strong> ${reason} → No cumple la gramática INV-[0-9]+</div>`;
   resultLabel.textContent = "Código inválido ❌";
 }
-
