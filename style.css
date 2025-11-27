@@ -44,8 +44,6 @@ h1 {
 .log-box {
   font-size: 0.9rem;
   margin-top: 8px;
-  max-height: 200px;   /* límite de altura */
-  overflow-y: auto;    /* scroll vertical */
 }
 
 .log-item {
@@ -54,3 +52,4 @@ h1 {
   border-left: 3px solid #2979ff;
   background-color: #1c1c1c;
 }
+
