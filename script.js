@@ -45,7 +45,7 @@ function step() {
   switch (currentState) {
     case "q0":
       if (symbol === "I") {
-        logProceso(estadoAnterior, symbol, "I", "Derecha", "q1");
+        logProceso(estadoAnterior, symbol, "Reconoce inicio 'I'", "Derecha", "q1", "Inicio del prefijo INV");
         head++;
         currentState = "q1";
       } else {
@@ -55,7 +55,7 @@ function step() {
 
     case "q1":
       if (symbol === "N") {
-        logProceso(estadoAnterior, symbol, "N", "Derecha", "q2");
+        logProceso(estadoAnterior, symbol, "Reconoce 'N'", "Derecha", "q2", "Segundo símbolo del prefijo INV");
         head++;
         currentState = "q2";
       } else {
@@ -65,7 +65,7 @@ function step() {
 
     case "q2":
       if (symbol === "V") {
-        logProceso(estadoAnterior, symbol, "V", "Derecha", "q3");
+        logProceso(estadoAnterior, symbol, "Reconoce 'V'", "Derecha", "q3", "Completa el prefijo INV");
         head++;
         currentState = "q3";
       } else {
@@ -75,7 +75,7 @@ function step() {
 
     case "q3":
       if (symbol === "-") {
-        logProceso(estadoAnterior, symbol, "-", "Derecha", "qDigits");
+        logProceso(estadoAnterior, symbol, "Reconoce '-'", "Derecha", "qDigits", "Separador antes de los dígitos");
         head++;
         currentState = "qDigits";
       } else {
@@ -85,7 +85,7 @@ function step() {
 
     case "qDigits":
       if (/[0-9]/.test(symbol)) {
-        logProceso(estadoAnterior, symbol, symbol, "Derecha", "qDigits");
+        logProceso(estadoAnterior, symbol, "Reconoce dígito", "Derecha", "qDigits", "Parte numérica del código");
         head++;
         if (head >= tape.length) {
           accept();
@@ -99,13 +99,14 @@ function step() {
   renderTape();
 }
 
-function logProceso(estadoAnterior, leido, escribe, movimiento, nuevoEstado) {
+function logProceso(estadoAnterior, leido, accion, movimiento, nuevoEstado, explicacion) {
   stateLabel.innerHTML = `
     <div class="log-item">Estado anterior: <strong>${estadoAnterior}</strong></div>
-    <div class="log-item">Leyó: <strong>${leido}</strong></div>
-    <div class="log-item">Escribió: <strong>${escribe}</strong></div>
-    <div class="log-item">Movimiento: <strong>${movimiento}</strong></div>
-    <div class="log-item">Estado actual: <strong>${nuevoEstado}</strong></div>
+    <div class="log-item">Símbolo leído: <strong>${leido}</strong></div>
+    <div class="log-item">Acción: <strong>${accion}</strong></div>
+    <div class="log-item">Movimiento del cabezal: <strong>${movimiento}</strong></div>
+    <div class="log-item">Nuevo estado: <strong>${nuevoEstado}</strong></div>
+    <div class="log-item text-muted">Explicación: ${explicacion}</div>
   `;
 }
 
@@ -126,12 +127,13 @@ document.getElementById("resetBtn").addEventListener("click", function () {
 
 function accept() {
   currentState = "qAccept";
-  stateLabel.innerHTML = "<div class='log-item'><strong>Cadena aceptada</strong></div>";
+  stateLabel.innerHTML = "<div class='log-item'><strong>Cadena aceptada</strong> → El código cumple la gramática INV-[0-9]+</div>";
   resultLabel.textContent = "Código válido ✅";
 }
 
 function reject(reason) {
   currentState = "qReject";
-  stateLabel.innerHTML = `<div class='log-item'><strong>Error:</strong> ${reason}</div>`;
+  stateLabel.innerHTML = `<div class='log-item'><strong>Error:</strong> ${reason} → No cumple la gramática INV-[0-9]+</div>`;
   resultLabel.textContent = "Código inválido ❌";
 }
+
